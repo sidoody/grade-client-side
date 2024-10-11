@@ -1,17 +1,31 @@
-## Running React on Replit
+# Residency Application Grader
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+This project helps medical residency directors grade CVs for applicants based on a predefined rubric. The application consists of a **Node.js backend** and a **React.js frontend** that work together to process CVs and return grades.
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+## Project Summary
 
-Using the two in conjunction is one of the fastest ways to build a web app.
+### Server-Side (Node.js)
+- Handles file uploads using **Multer**.
+- Extracts text from CV PDFs using **pdf-parse**.
+- Communicates with **GPT-4** to grade CVs based on rubric (education, experience, etc.).
+- REST API that accepts CVs and returns grading results.
 
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
+### Client-Side (React.js)
+- Provides a user interface to upload CVs and submit them for grading.
+- Displays the grading results in a clean, responsive UI.
+- Handles file uploads and communicates with the backend to fetch grading results.
 
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
+## To-Dos
+- **Multiple PDFs**: Allow the upload and processing of multiple PDFs at once, with each returning separate grades.
+- **Grades in a Table**: Display grades in a table format:
+  - Columns: Student name and individual grades.
+  - Rows: Each student’s row can expand to show detailed information for each grade.
+- **Loader**: Add a loader that shows while the PDFs are being processed and GPT is working on returning grades.
 
-### Typescript
+## How to Run the Project
+1. Clone the repository.
+2. Install dependencies for both the server and client sides.
+3. Run the server-side Node.js application and the client-side React app.
 
-Just rename any file from `.jsx` to `.tsx`. You can also try our [TypeScript Template](https://replit.com/@replit/React-TypeScript)
+## Next Steps
+Stay tuned for future features, including user-adjustable grading rubrics and handling multiple applicant documents at once.
