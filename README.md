@@ -1,4 +1,5 @@
-# Residency Application Grader
+# Application Grader
+10/11/24
 
 This project helps medical residency directors grade CVs for applicants based on a predefined rubric. The application consists of a **Node.js backend** and a **React.js frontend** that work together to process CVs and return grades.
 
