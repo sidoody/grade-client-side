@@ -1,0 +1,169 @@
+/* General page styling */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f0f4f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Main app container */
+.App {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  max-width: 700px;  /* Wider by default */
+  width: 100%;
+  box-sizing: border-box; 
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Make the app container wider on larger screens */
+@media (min-width: 1024px) {
+  .App {
+    max-width: 900px;  /* Wider on larger viewports */
+  }
+}
+
+/* Headings */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: -0.5px;
+}
+
+/* Form styling */
+form {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  box-sizing: border-box; 
+}
+
+form label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  color: #2d3748;
+  display: block;
+  width: 100%; 
+  text-align: left;
+}
+
+input[type="file"] {
+  padding: 0.8rem;
+  border: 1px solid #CBD5E0;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 480px;
+  transition: border-color 0.2s ease;
+  font-size: 1rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  box-sizing: border-box; 
+}
+
+input[type="file"]:hover {
+  border-color: #4A90E2;
+}
+
+/* Submit button styling */
+button[type="submit"] {
+  background-image: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 220px;
+  text-align: center;
+}
+
+button[type="submit"]:hover {
+  background-image: linear-gradient(135deg, #5a67d8, #6b46c1);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+}
+
+/* Error message styling */
+p.error-message {
+  color: red;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+}
+
+/* Grading result section styling */
+.grading-results {
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  width: 100%;  
+  max-width: 700px; 
+}
+
+.grading-results h3 {
+  font-size: 1.6rem;
+  margin-top: 1.5rem;
+  color: #2b6cb0;
+}
+
+.grading-results p {
+  font-size: 1rem;
+  color: #4A5568;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+/* Form container hover effect */
+form:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .App {
+    padding: 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  input[type="file"] {
+    padding: 0.75rem;
+    max-width: 100%; 
+  }
+
+  button[type="submit"] {
+    width: 100%;
+  }
+
+  .grading-results {
+    padding: 1.5rem;
+  }
+}
