@@ -1,17 +1,23 @@
-## Running React on Replit
+# Client-Side Updates
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+## 1. Multiple Student Selection
+- Users can now select one or more students using checkboxes in the table.
+- A "Select All" checkbox has been added to easily select or deselect all students.
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+## 2. Running Grader for Multiple Students
+- A new **"Run Grader"** button has been added to send selected students' data to the backend.
+- The results are dynamically displayed in the table, with separate columns for each grading category (Education, Professional Experience, Personal Statement, and Letters of Recommendation).
 
-Using the two in conjunction is one of the fastest ways to build a web app.
+## 3. Table UI Updates
+- The table dynamically updates each student's row with their grades after processing.
+- Spinners were added for each cell while waiting for the GPT-4 responses, improving the user experience.
 
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
+## 4. Error Handling
+- If there's an issue with grading (e.g., GPT-4 fails to respond), an error message is displayed in the respective cell.
 
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
-
-### Typescript
-
-Just rename any file from `.jsx` to `.tsx`. You can also try our [TypeScript Template](https://replit.com/@replit/React-TypeScript)
+## Files Updated
+- **`App.jsx`**:
+  - Handles multiple student selection and grading.
+  - Implements spinners for loading grades.
+- **`App.css`**:
+  - Minor tweaks for better responsiveness and improved table layout.
