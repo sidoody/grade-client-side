@@ -17,9 +17,9 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
-  min-width: 1000px
+  min-width: 1000px;
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -40,26 +40,50 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
-table th, table td {
-  padding: 1rem;
+th,
+td {
+  padding: 0.25rem 0.5rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  font-size: 0.85rem;
 }
 
-table th {
-  background-color: #f7fafc;
-  color: #4a5568;
-}
-
-table td {
-  color: #4a5568;
-}
-
-input[type="checkbox"] {
+th {
+  position: relative;
   cursor: pointer;
+}
+
+th.sortable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 120px;
+}
+
+th.sortable .sort-icon {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+/* Spinner styling */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  margin: 0 auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Button styling */
@@ -95,17 +119,49 @@ p.error-message {
   margin-top: 0.75rem;
 }
 
-/* Spinner styling */
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
+/* Details button */
+.details-btn {
+  background-color: #764ba2;
+  border: none;
+  font-size: 1.25rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Ensures the icon is centered */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.2);
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.details-btn:hover {
+  background-color: #5a67d8;
+}
+
+/* Details column */
+.details-cell {
+  width: 50px;
+  text-align: center; /* Centers the button in the cell */
+}
+
+/* Grade details styling */
+.grade-details {
+  background-color: #f7fafc;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #2d3748;
+  max-width: 80%; /* Limit width for better readability */
+}
+
+.grade-details h4 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.grade-details p {
+  margin: 0.25rem 0;
 }
