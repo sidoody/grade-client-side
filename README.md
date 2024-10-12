@@ -1,32 +1,23 @@
-# Application Grader
-10/11/24
+# Client-Side Updates
 
-This project helps medical residency directors grade CVs for applicants based on a predefined rubric. The application consists of a **Node.js backend** and a **React.js frontend** that work together to process CVs and return grades.
+## 1. Multiple Student Selection
+- Users can now select one or more students using checkboxes in the table.
+- A "Select All" checkbox has been added to easily select or deselect all students.
 
-## Project Summary
+## 2. Running Grader for Multiple Students
+- A new **"Run Grader"** button has been added to send selected students' data to the backend.
+- The results are dynamically displayed in the table, with separate columns for each grading category (Education, Professional Experience, Personal Statement, and Letters of Recommendation).
 
-### Server-Side (Node.js)
-- Handles file uploads using **Multer**.
-- Extracts text from CV PDFs using **pdf-parse**.
-- Communicates with **GPT-4** to grade CVs based on rubric (education, experience, etc.).
-- REST API that accepts CVs and returns grading results.
+## 3. Table UI Updates
+- The table dynamically updates each student's row with their grades after processing.
+- Spinners were added for each cell while waiting for the GPT-4 responses, improving the user experience.
 
-### Client-Side (React.js)
-- Provides a user interface to upload CVs and submit them for grading.
-- Displays the grading results in a clean, responsive UI.
-- Handles file uploads and communicates with the backend to fetch grading results.
+## 4. Error Handling
+- If there's an issue with grading (e.g., GPT-4 fails to respond), an error message is displayed in the respective cell.
 
-## To-Dos
-- **Multiple PDFs**: Allow the upload and processing of multiple PDFs at once, with each returning separate grades.
-- **Grades in a Table**: Display grades in a table format:
-  - Columns: Student name and individual grades.
-  - Rows: Each student’s row can expand to show detailed information for each grade.
-- **Loader**: Add a loader that shows while the PDFs are being processed and GPT is working on returning grades.
-
-## How to Run the Project
-1. Clone the repository.
-2. Install dependencies for both the server and client sides.
-3. Run the server-side Node.js application and the client-side React app.
-
-## Next Steps
-Stay tuned for future features, including user-adjustable grading rubrics and handling multiple applicant documents at once.
+## Files Updated
+- **`App.jsx`**:
+  - Handles multiple student selection and grading.
+  - Implements spinners for loading grades.
+- **`App.css`**:
+  - Minor tweaks for better responsiveness and improved table layout.

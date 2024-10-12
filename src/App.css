@@ -17,20 +17,13 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 2.5rem;
-  max-width: 700px;  /* Wider by default */
+  min-width: 1000px;
   width: 100%;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Make the app container wider on larger screens */
-@media (min-width: 1024px) {
-  .App {
-    max-width: 900px;  /* Wider on larger viewports */
-  }
 }
 
 /* Headings */
@@ -43,50 +36,58 @@ h1 {
   letter-spacing: -0.5px;
 }
 
-/* Form styling */
-form {
+/* Table Styling */
+table {
   width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fefefe;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-  box-sizing: border-box; 
-}
-
-form label {
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-  color: #2d3748;
-  display: block;
-  width: 100%; 
-  text-align: left;
-}
-
-input[type="file"] {
-  padding: 0.8rem;
-  border: 1px solid #CBD5E0;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 480px;
-  transition: border-color 0.2s ease;
-  font-size: 1rem;
-  background-color: #ffffff;
-  cursor: pointer;
+  border-collapse: collapse;
   margin-bottom: 1rem;
-  box-sizing: border-box; 
 }
 
-input[type="file"]:hover {
-  border-color: #4A90E2;
+th,
+td {
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 0.85rem;
 }
 
-/* Submit button styling */
-button[type="submit"] {
+th {
+  position: relative;
+  cursor: pointer;
+}
+
+th.sortable {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 120px;
+}
+
+th.sortable .sort-icon {
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+/* Spinner styling */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  margin: 0 auto;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Button styling */
+button {
   background-image: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff;
   padding: 0.75rem 1.5rem;
@@ -97,13 +98,16 @@ button[type="submit"] {
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);
-  margin-top: 1rem;
-  width: 100%;
-  max-width: 220px;
+  width: 220px;
   text-align: center;
 }
 
-button[type="submit"]:hover {
+button:disabled {
+  background: #e2e8f0;
+  cursor: not-allowed;
+}
+
+button:hover:enabled {
   background-image: linear-gradient(135deg, #5a67d8, #6b46c1);
   box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
 }
@@ -115,55 +119,49 @@ p.error-message {
   margin-top: 0.75rem;
 }
 
-/* Grading result section styling */
-.grading-results {
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-  width: 100%;  
-  max-width: 700px; 
+/* Details button */
+.details-btn {
+  background-color: #764ba2;
+  border: none;
+  font-size: 1.25rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Ensures the icon is centered */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.2);
 }
 
-.grading-results h3 {
-  font-size: 1.6rem;
-  margin-top: 1.5rem;
-  color: #2b6cb0;
+.details-btn:hover {
+  background-color: #5a67d8;
 }
 
-.grading-results p {
-  font-size: 1rem;
-  color: #4A5568;
-  line-height: 1.6;
-  margin-bottom: 0.75rem;
+/* Details column */
+.details-cell {
+  width: 50px;
+  text-align: center; /* Centers the button in the cell */
 }
 
-/* Form container hover effect */
-form:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+/* Grade details styling */
+.grade-details {
+  background-color: #f7fafc;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #2d3748;
+  max-width: 80%; /* Limit width for better readability */
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .App {
-    padding: 1.5rem;
-  }
+.grade-details h4 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
 
-  h1 {
-    font-size: 2rem;
-  }
-
-  input[type="file"] {
-    padding: 0.75rem;
-    max-width: 100%; 
-  }
-
-  button[type="submit"] {
-    width: 100%;
-  }
-
-  .grading-results {
-    padding: 1.5rem;
-  }
+.grade-details p {
+  margin: 0.25rem 0;
 }
