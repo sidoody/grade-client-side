@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  justify-content: flex-end; /* Right align the content */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f0f4f8;
+}
+
+.user-email {
+  font-size: 1rem;
+  margin-right: 15px; /* Adds spacing between the email and the button */
+  color: #333;
+}
+
+.logout-button {
+  background-image: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-image: linear-gradient(135deg, #5a67d8, #6b46c1);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}

@@ -1,0 +1,54 @@
+/* Login form container styling */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  background-color: #f0f4f8; /* Background color */
+}
+
+/* Card styling */
+.login-card {
+  background-color: #ffffff; /* Card background */
+  border-radius: 12px; /* Rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 2rem; /* Padding inside the card */
+  width: 300px; /* Card width */
+  text-align: center; /* Center the text */
+  margin: 0 50px; /* Add horizontal margin */
+}
+
+/* Headings */
+.login-card h2 {
+  margin-bottom: 1rem; /* Space below the heading */
+  font-size: 1.5rem; /* Heading size */
+  color: #2d3748; /* Text color */
+}
+
+/* Input fields styling */
+.login-card input {
+  width: 90%; /* Full width */
+  padding: 0.75rem; /* Padding inside input */
+  margin: 0.5rem 0; /* Margin above and below */
+  border: 1px solid #ddd; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 1rem; /* Input text size */
+}
+
+/* Button styling */
+.login-card button {
+  background-image: linear-gradient(135deg, #667eea, #764ba2); /* Button gradient */
+  color: #fff; /* Button text color */
+  padding: 0.75rem 1rem; /* Button padding */
+  border: none; /* No border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer on hover */
+  font-size: 1.1rem; /* Button text size */
+  font-weight: 600; /* Button text weight */
+  transition: all 0.3s ease; /* Smooth transition */
+  margin-top: 10px; 
+}
+
+.login-card button:hover {
+  background-image: linear-gradient(135deg, #5a67d8, #6b46c1); /* Darker gradient on hover */
+}

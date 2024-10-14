@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import LoginForm from "./LoginForm";
+import Navbar from "./Navbar";
 import "./App.css";
 
 function App() {
+  const [firebaseInitialized, setFirebaseInitialized] = useState(false);
+  const [user, setUser] = useState(null);
   const [students, setStudents] = useState([]);
-  const [selectedStudents, setSelectedStudents] = useState([]);
+  const [selectedStudents, setSelectedStudents] = useState([]); // Tracks selected students
   const [grades, setGrades] = useState({});
   const [loading, setLoading] = useState({});
   const [error, setError] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
-  const [expandedRow, setExpandedRow] = useState(null); // State to manage accordion toggle
+  const [expandedRow, setExpandedRow] = useState(null);
 
   const gradeMapping = {
     "A+": 100,
@@ -27,8 +34,54 @@ function App() {
     "N/A": 0,
   };
 
+  // Step 1: Fetch Firebase Config and Initialize Firebase
+  useEffect(() => {
+    async function fetchFirebaseConfig() {
+      try {
+        const response = await fetch(
+          "https://a5f0e7d7-b811-4e14-afc7-337c30782d05-00-15z8j6l8be5kq.riker.replit.dev/api/firebase-config",
+        );
+        const firebaseConfig = await response.json();
+
+        // Ensure valid config
+        if (!firebaseConfig.apiKey) {
+          throw new Error("Invalid Firebase configuration.");
+        }
+
+        // Initialize Firebase dynamically
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Once Firebase is initialized, set state to true
+        setFirebaseInitialized(true);
+      } catch (err) {
+        console.error("Failed to fetch Firebase config:", err.message);
+        setError("Failed to initialize Firebase.");
+      }
+    }
+
+    fetchFirebaseConfig();
+  }, []);
+
+  // Listen for Auth State Change
+  useEffect(() => {
+    if (!firebaseInitialized) return; // Make sure Firebase is initialized first
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [firebaseInitialized]);
+
   // Fetch students' data from server-side API
   useEffect(() => {
+    if (!firebaseInitialized || !user) return; // Ensure Firebase is initialized and user is logged in
+
     async function fetchStudents() {
       try {
         const response = await fetch(
@@ -41,8 +94,27 @@ function App() {
         setError("Failed to fetch students.");
       }
     }
+
     fetchStudents();
-  }, []);
+  }, [firebaseInitialized, user]);
+
+  // Handle selecting or deselecting students
+  const handleSelectStudent = (studentId) => {
+    setSelectedStudents((prevSelected) =>
+      prevSelected.includes(studentId)
+        ? prevSelected.filter((id) => id !== studentId)
+        : [...prevSelected, studentId],
+    );
+  };
+
+  // Handle selecting all students
+  const handleSelectAll = () => {
+    if (selectedStudents.length === students.length) {
+      setSelectedStudents([]); // Deselect all if all are already selected
+    } else {
+      setSelectedStudents(students.map((student) => student.id)); // Select all
+    }
+  };
 
   // Handle sorting
   const handleSort = (key) => {
@@ -53,7 +125,6 @@ function App() {
     setSortConfig({ key, direction });
 
     const sortedStudents = [...students].sort((a, b) => {
-      // Handle sorting for overall grade
       if (key === "OverallGrade") {
         const overallA = parseFloat(calculateOverallGrade(a.id));
         const overallB = parseFloat(calculateOverallGrade(b.id));
@@ -63,7 +134,6 @@ function App() {
         return direction === "asc" ? overallA - overallB : overallB - overallA;
       }
 
-      // Handle sorting for grades and other columns
       if (key in grades[a.id] || key in grades[b.id]) {
         const gradeA = grades[a.id]?.[key]?.grade || "N/A";
         const gradeB = grades[b.id]?.[key]?.grade || "N/A";
@@ -89,26 +159,35 @@ function App() {
     setStudents(sortedStudents);
   };
 
-  // Handle selecting or deselecting students
-  const handleSelectStudent = (studentId) => {
-    setSelectedStudents((prevSelected) =>
-      prevSelected.includes(studentId)
-        ? prevSelected.filter((id) => id !== studentId)
-        : [...prevSelected, studentId],
-    );
-  };
+  // Calculate overall grade based on numeric mapping
+  const calculateOverallGrade = (studentId) => {
+    const studentGrades = grades[studentId];
+    if (!studentGrades) return "N/A";
 
-  // Handle selecting all students
-  const handleSelectAll = () => {
-    if (selectedStudents.length === students.length) {
-      setSelectedStudents([]); // Deselect all if all are already selected
-    } else {
-      setSelectedStudents(students.map((student) => student.id)); // Select all
-    }
+    const {
+      Education = { grade: "N/A" },
+      ProfessionalExperience = { grade: "N/A" },
+      PersonalStatement = { grade: "N/A" },
+      LettersOfRecommendation = { grade: "N/A" },
+    } = studentGrades;
+
+    const gradeValues = [
+      gradeMapping[Education.grade],
+      gradeMapping[ProfessionalExperience.grade],
+      gradeMapping[PersonalStatement.grade],
+      gradeMapping[LettersOfRecommendation.grade],
+    ];
+
+    const validGrades = gradeValues.filter((grade) => grade !== undefined);
+    const total = validGrades.reduce((acc, grade) => acc + grade, 0);
+
+    return validGrades.length ? (total / validGrades.length).toFixed(2) : "N/A";
   };
 
   // Handle grading the selected students
   const handleGradeSelectedStudents = async () => {
+    if (selectedStudents.length === 0) return; // No students selected
+
     const newLoadingState = {};
     selectedStudents.forEach((id) => {
       newLoadingState[id] = {
@@ -151,31 +230,6 @@ function App() {
     }
   };
 
-  // Calculate overall grade based on numeric mapping
-  const calculateOverallGrade = (studentId) => {
-    const studentGrades = grades[studentId];
-    if (!studentGrades) return "N/A";
-
-    const {
-      Education = { grade: "N/A" },
-      ProfessionalExperience = { grade: "N/A" },
-      PersonalStatement = { grade: "N/A" },
-      LettersOfRecommendation = { grade: "N/A" },
-    } = studentGrades;
-
-    const gradeValues = [
-      gradeMapping[Education.grade],
-      gradeMapping[ProfessionalExperience.grade],
-      gradeMapping[PersonalStatement.grade],
-      gradeMapping[LettersOfRecommendation.grade],
-    ];
-
-    const validGrades = gradeValues.filter((grade) => grade !== undefined);
-    const total = validGrades.reduce((acc, grade) => acc + grade, 0);
-
-    return validGrades.length ? (total / validGrades.length).toFixed(2) : "N/A";
-  };
-
   const getSortIcon = (key) => {
     if (sortConfig.key === key) {
       return sortConfig.direction === "asc" ? "↑" : "↓";
@@ -183,7 +237,6 @@ function App() {
     return "↕"; // Default sorting icon for unsorted columns
   };
 
-  // Toggle accordion for expanded details
   const toggleRow = (studentId) => {
     if (expandedRow === studentId) {
       setExpandedRow(null); // Close if already expanded
@@ -192,12 +245,23 @@ function App() {
     }
   };
 
+  // Show loading state if Firebase is not initialized
+  if (!firebaseInitialized) {
+    return <div>Loading Firebase...</div>;
+  }
+
+  // Render login form if user is not authenticated
+  if (!user) {
+    return <LoginForm />;
+  }
+
+  // Render main app when authenticated
   return (
+
     <div className="App">
+      <Navbar user={user} /> {/* Include Navbar here */}
       <h1>Grader</h1>
-
       {error && <p className="error-message">{error}</p>}
-
       {/* Student Table */}
       <table>
         <thead>
@@ -334,8 +398,6 @@ function App() {
           ))}
         </tbody>
       </table>
-
-      {/* Run Grader Button */}
       <button
         onClick={handleGradeSelectedStudents}
         disabled={selectedStudents.length === 0}
