@@ -27,12 +27,12 @@ function App() {
     "N/A": 0,
   };
 
-  // Fetch students' data from the backend
+  // Fetch students' data from server-side API
   useEffect(() => {
     async function fetchStudents() {
       try {
         const response = await fetch(
-          "https://a5f0e7d7-b811-4e14-afc7-337c30782d05-00-15z8j6l8be5kq.riker.replit.dev/fetch-students",
+          "https://a5f0e7d7-b811-4e14-afc7-337c30782d05-00-15z8j6l8be5kq.riker.replit.dev/api/fetch-students",
         );
         const data = await response.json();
         setStudents(data);
@@ -122,7 +122,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://a5f0e7d7-b811-4e14-afc7-337c30782d05-00-15z8j6l8be5kq.riker.replit.dev/grade-student",
+        "https://a5f0e7d7-b811-4e14-afc7-337c30782d05-00-15z8j6l8be5kq.riker.replit.dev/api/grade-student",
         {
           method: "POST",
           headers: {
@@ -241,8 +241,8 @@ function App() {
         </thead>
         <tbody>
           {students.map((student) => (
-            <>
-              <tr key={student.id}>
+            <React.Fragment key={student.id}>
+              <tr>
                 <td>
                   <input
                     type="checkbox"
@@ -330,7 +330,7 @@ function App() {
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
